@@ -1,23 +1,45 @@
-const express = require('express');
-const app = express();
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+const routeabout = require('./routes/about')
+const routeservice = require('./routes/service')
 
-app.set('home engine', 'pug');
-app.set('homes','./homes');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
-app.set('services engine', 'pug');
-app.set('services','./services');
+var app = express();
 
-app.set('contactus engine', 'pug');
-app.set('contactus','./contactus');
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-app.get('/home', function(req, res){
-    res.render('home');
- });
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
- app.get('/services', function(req, res){
-    res.render('services');
- });
+app.use('/', indexRouter);
+app.use('/',routeabout)
+app.use('/',routeservice)
+app.use('/users', usersRouter);
 
- app.get('/contactus', function(req, res){
-    res.render('contactus');
- });
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;

@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script.
+       function testFunc(){console.log('welcome')} 
+  body
+    nav.navv 
+      a(href="/") home 
+      a(href="/about") About
+      a(href="/service") Service
+
+    h1= title
+    p Welcome to #{title}
+ 
+    button(onclick="testFunc()") submit
+  //- - var testFunc = function(){
+  //- - console.log('welcome')     } 
+
+

@@ -1,0 +1,14 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+nav{
+   display: flex;
+   justify-content: space-around;
+}
+a {
+   text-decoration: none;
+}
+a:hover{
+  color: aqua;
+}
